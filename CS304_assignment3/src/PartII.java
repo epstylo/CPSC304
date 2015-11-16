@@ -88,6 +88,7 @@ public class PartII {
 		  con.commit();
 
 		  ps.close();
+		  System.out.println("Item " + upc + " was added to the item table!");
 		}
 		catch (IOException e)
 		{
@@ -141,6 +142,7 @@ public class PartII {
 		  con.commit();
 
 		  ps2.close();
+		  System.out.println("Item " + upc + " was added to the book table!");
 		}
 		catch (IOException e)
 		{
@@ -207,6 +209,7 @@ public class PartII {
 		  con.commit();
 
 		  ps.close();
+		  System.out.println("Item " + upc + " was added to the item table!");
 		}
 		catch (IOException e)
 		{
@@ -286,17 +289,18 @@ public class PartII {
 	}
 
 	private void removeFromItemTable(String upc) {
-		PreparedStatement removeItem;
-		
 		try
-		{
-		removeItem = con.prepareStatement("DELETE FROM item WHERE upc = ?");
-		removeItem.setString(1, upc);
-		removeItem.executeUpdate();
-		System.out.println("Item: " + upc + " has been deleted!");
+		{		
+		// Create a SQL Statement object
+		Statement stmt = con.createStatement();
+		int rs = stmt.executeUpdate(
+				"DELETE FROM item WHERE upc = '" + upc + "'"
+		);
+		
+		System.out.println(upc + " has been deleted from the item table!");
 		// commit work 
 		con.commit();
-		removeItem.close();
+		stmt.close();
 		}
 		catch (SQLException ex)
 		{
@@ -315,16 +319,19 @@ public class PartII {
 	}
 	
 	private void removeFromBookTable(String upc) {
-		PreparedStatement removeBook;
 		
 		try
-		{
-		removeBook = con.prepareStatement("DELETE FROM book WHERE upc = ?");
-		removeBook.setString(1, upc);
-		removeBook.executeUpdate();
+		{		
+		// Create a SQL Statement object
+		Statement stmt = con.createStatement();
+		int rs = stmt.executeUpdate(
+				"DELETE FROM book WHERE upc = '" + upc + "'"
+		);
+
+		System.out.println(upc + " has been deleted from the book table!");
 		// commit work 
 		con.commit();
-		removeBook.close();
+		stmt.close();
 		}
 		catch (SQLException ex)
 		{
@@ -343,16 +350,18 @@ public class PartII {
 	}
 
 	private void removeFromItemPurchaseTable(String upc) {
-		PreparedStatement removeItemPurchase;
-		
 		try
 		{
-		removeItemPurchase = con.prepareStatement("DELETE FROM itemPurchase WHERE upc = ?");
-		removeItemPurchase.setString(1, upc);
-		removeItemPurchase.executeUpdate();
+		// Create a SQL Statement object
+		Statement stmt = con.createStatement();
+		int rs = stmt.executeUpdate(
+				"DELETE FROM itemPurchase WHERE upc = '" + upc + "'"
+		);
+
+		System.out.println(upc + " has been deleted from the itemPurchase table!");
 		// commit work 
 		con.commit();
-		removeItemPurchase.close();
+		stmt.close();
 		}
 		catch (SQLException ex)
 		{
@@ -514,7 +523,7 @@ public class PartII {
 		    System.out.println("Message: " + ex.getMessage());
 		};
 	}
-	
+
 	// Start the program
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {	
 		PartII program = new PartII();
